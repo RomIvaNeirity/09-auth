@@ -1,7 +1,7 @@
 // app/notes/[id]/page.tsx
 import { Metadata } from "next";
-import { fetchNoteById } from "@/lib/api";
-import NoteDetailsClient from "@/app/notes/[id]/NoteDetails.client";
+import { fetchNoteById } from "@/lib/api/serverApi";
+import NoteDetailsClient from "@/app/(private routes)/notes/[id]/NoteDetails.client";
 import {
   HydrationBoundary,
   QueryClient,
