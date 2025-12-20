@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default async function ProfilePage() {
   const data = await getMe();
-
+  console.log("[ProfilePage] render, user =", data);
   return (
     <>
       {data && (

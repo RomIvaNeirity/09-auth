@@ -1,4 +1,3 @@
-//
 "use client";
 import axios from "axios";
 import css from "./SignInPage.module.css";
@@ -9,10 +8,12 @@ import { useAuthStore } from "@/lib/store/authStore";
 
 export default function SignInForm() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const setUser = useAuthStore((state) => state.setUser);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const form = e.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
@@ -21,7 +22,7 @@ export default function SignInForm() {
     try {
       const userData = await login({ email, password });
       setUser(userData);
-      router.push("/profile"); // редірект після успішного login
+      router.push("/profile");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data.message ?? "Something went wrong");
