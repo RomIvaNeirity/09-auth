@@ -21,8 +21,12 @@ export default function SignInForm() {
 
     try {
       const userData = await login({ email, password });
-      setUser(userData);
-      router.push("/profile");
+      if (userData) {
+        setUser(userData);
+        router.push("/profile");
+      } else {
+        setError("Invalid email or password");
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data.message ?? "Something went wrong");

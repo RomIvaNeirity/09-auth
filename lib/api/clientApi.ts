@@ -24,6 +24,9 @@ export const fetchNotes = async (
   });
   return response.data;
 };
+export const fetchNoteById = (id: string) => nextServer.get(`/notes/${id}`);
+export const createNote = (data: Note) => nextServer.post("/notes", data);
+export const deleteNote = (id: string) => nextServer.delete(`/notes/${id}`);
 
 export async function register({
   email,
@@ -37,7 +40,6 @@ export async function register({
     password,
   });
 
-  console.log("clientApi payload:", email, password);
   return response.data;
 }
 

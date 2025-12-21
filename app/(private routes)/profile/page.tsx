@@ -27,6 +27,10 @@ export const metadata: Metadata = {
 export default async function ProfilePage() {
   const data = await getMe();
   console.log("[ProfilePage] render, user =", data);
+
+  if (!data) {
+    return <p>Не залогінено</p>;
+  }
   return (
     <>
       {data && (

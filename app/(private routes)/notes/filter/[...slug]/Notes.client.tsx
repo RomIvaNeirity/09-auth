@@ -6,7 +6,7 @@ import css from "@/app/page.module.css";
 import { useState, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/clientApi";
 import NoteList from "@/components/NoteList/NoteList";
 import type { Note } from "@/types/note";
 import toast, { Toaster } from "react-hot-toast";

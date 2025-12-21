@@ -4,7 +4,7 @@ import css from "./NoteDetails.module.css";
 
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchNoteById } from "@/lib/api";
+import { fetchNoteById } from "@/lib/api/clientApi";
 
 export default function NoteDetailsClient() {
   const { id } = useParams();
@@ -15,10 +15,11 @@ export default function NoteDetailsClient() {
     refetchOnMount: false,
   });
 
-  
-    {isLoading && <p>Note details loading, please wait...</p>;
-    isError && <p>Something went wrong.</p>;}
-  
+  {
+    isLoading && <p>Note details loading, please wait...</p>;
+    isError && <p>Something went wrong.</p>;
+  }
+
   if (!data) return null;
 
   return (

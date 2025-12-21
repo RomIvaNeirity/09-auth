@@ -6,7 +6,6 @@ export const fetchNotes = async (
   search: string = "",
   tag: string | undefined
 ) => {
-  const cookieStore = cookies();
   const response = await nextServer.get("/notes", {
     params: {
       page,
@@ -14,56 +13,46 @@ export const fetchNotes = async (
       search: search || undefined,
       tag,
     },
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
   });
   return response.data;
 };
 
+const getCookieHeader = async () => {
+  const cookieStore = await cookies(); // ← КЛЮЧОВЕ
+  return cookieStore
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+};
+
 export const fetchNoteById = async (id: string) => {
-  const cookieStore = cookies();
+  const cookieHeader = await getCookieHeader();
   const response = await nextServer.get(`/notes/${id}`, {
     headers: {
-      Cookie: cookieStore.toString(),
+      Cookie: cookieHeader,
     },
   });
   return response.data;
 };
 
 export const checkSession = async () => {
-  const cookieStore = cookies();
-  const data = await nextServer.get("/auth/session", {
+  const cookieHeader = await getCookieHeader();
+
+  return nextServer.get("/auth/session", {
     headers: {
-      Cookie: cookieStore.toString(),
+      Cookie: cookieHeader,
     },
   });
-  return data;
 };
 
-/* export const getMe = async () => {
-  const cookieStore = cookies();
+export const getMe = async () => {
+  const cookieHeader = await getCookieHeader();
+
   const { data } = await nextServer.get("/users/me", {
     headers: {
-      Cookie: cookieStore.toString(),
+      Cookie: cookieHeader,
     },
   });
+
   return data;
-}; */
-
-export async function getMe() {
-  const cookieStore = await cookies(); // 🔑 ВАЖЛИВО
-  const session = cookieStore.get("session");
-
-  if (!session) {
-    return null; // або redirect("/signin")
-  }
-
-  const res = await nextServer.get("/users/me", {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-  console.log("COOKIE HEADER:", cookieStore.toString());
-  return res.data;
-}
+};
