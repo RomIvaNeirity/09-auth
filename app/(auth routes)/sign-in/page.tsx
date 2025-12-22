@@ -23,6 +23,7 @@ export default function SignInForm() {
       const userData = await login({ email, password });
       if (userData) {
         setUser(userData);
+        router.refresh();
         router.push("/profile");
       } else {
         setError("Invalid email or password");
