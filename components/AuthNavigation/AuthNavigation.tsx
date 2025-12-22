@@ -8,10 +8,12 @@ import { logout } from "@/lib/api/clientApi";
 
 export default function AuthNavigation() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated
   );
+
+  const isLoggedIn = Boolean(user);
 
   const handleLogout = async () => {
     await logout();
@@ -21,7 +23,7 @@ export default function AuthNavigation() {
 
   return (
     <>
-      {isAuthenticated ? (
+      {isLoggedIn ? (
         <>
           <li className={css.navigationItem}>
             <Link
@@ -34,7 +36,7 @@ export default function AuthNavigation() {
           </li>
 
           <li className={css.navigationItem}>
-            <p className={css.userEmail}>{user?.email}</p>
+            <p className={css.userEmail}>{user?.username}</p>
             <button className={css.logoutButton} onClick={handleLogout}>
               Logout
             </button>
