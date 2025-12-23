@@ -15,7 +15,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
 
   setUser: (user) => {
-    console.log("[authStore] setUser called with:", user);
     set({ user });
   },
 
