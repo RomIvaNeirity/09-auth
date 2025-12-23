@@ -10,14 +10,15 @@ type AuthState = {
   clearIsAuthenticated: () => void;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>()((set) => ({
   user: null,
   isAuthenticated: false,
 
-  setUser: (user) => {
-    set({ user });
-  },
-
+  setUser: (user: User | null) =>
+    set({
+      user,
+      isAuthenticated: Boolean(user),
+    }),
   clearIsAuthenticated: () =>
     set({
       user: null,

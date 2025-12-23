@@ -16,9 +16,12 @@ export default function NoteDetailsClient() {
     refetchOnMount: false,
   });
 
-  {
-    isLoading && <p>Note details loading, please wait...</p>;
-    isError && <p>Something went wrong.</p>;
+  if (isLoading) {
+    return <p>Note details loading, please wait...</p>;
+  }
+
+  if (isError) {
+    return <p>Something went wrong.</p>;
   }
 
   if (!data) return null;

@@ -1,4 +1,4 @@
-// app/notes/[id]/page.tsx
+// app/(private routes)/notes/[id]/page.tsx
 import { Metadata } from "next";
 import { fetchNoteById } from "@/lib/api/serverApi";
 import NoteDetailsClient from "@/app/(private routes)/notes/[id]/NoteDetails.client";
@@ -9,19 +9,21 @@ import {
 } from "@tanstack/react-query";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: {
+    id: string;
+  };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-  const note = await fetchNoteById(id);
+  const note = await fetchNoteById(params.id);
+
   return {
     title: note.title,
     description: note.content,
     openGraph: {
       title: note.title,
       description: note.content,
-      url: `https://08-zustand-kohl-rho.vercel.app/notes/${id}`,
+      url: `https://08-zustand-kohl-rho.vercel.app/notes/${params.id}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
@@ -34,8 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function NoteDetails(params: Promise<{ id: string }>) {
-  const { id } = await params;
+export default async function NoteDetails({ params }: Props) {
+  const { id } = params;
 
   const queryClient = new QueryClient();
 
