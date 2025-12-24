@@ -9,13 +9,14 @@ import {
 } from "@tanstack/react-query";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const note = await fetchNoteById(params.id);
+  const { id } = await params;
+  const note = await fetchNoteById(id);
 
   return {
     title: note.title,
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: note.title,
       description: note.content,
-      url: `https://08-zustand-kohl-rho.vercel.app/notes/${params.id}`,
+      url: `https://08-zustand-kohl-rho.vercel.app/notes/${id}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function NoteDetails({ params }: Props) {
-  const { id } = params;
+  const { id } = await params;
 
   const queryClient = new QueryClient();
 
